@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第六課：生病看醫生與藥局 - N4~N3 日語會話</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        /* 1. THE SETUP & PRESENTATION MODE */
+        * { box-sizing: border-box; }
+        
+        body {
+            background-color: #333; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; 
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .slide-container {
+            display: flex; 
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; 
+            background-color: #ffffff;
+            align-items: center;
+            box-sizing: border-box;
+            flex-direction: column;
+            font-family: "Zen Kaku Gothic New", sans-serif;
+            gap: 25px; 
+            height: 100%;
+            justify-content: center;
+            padding: 30px 40px; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .slide-container.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        .slide-container > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- 控制按鈕樣式 --- */
+        .controls {
+            position: absolute;
+            bottom: 30px; 
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            z-index: 10000; 
+            background-color: rgba(0, 80, 136, 0.9);
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .controls button {
+            background-color: #11caa0;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: "Zen Kaku Gothic New", sans-serif;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+
+        .controls button:hover {
+            background-color: #0eab86;
+        }
+
+        .controls button:disabled {
+            background-color: #64748b;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .slide-counter {
+            color: #fff;
+            font-family: "Zen Kaku Gothic New", sans-serif;
+            font-size: 18px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* --- 排版樣式 --- */
+        .main-content { display: grid; gap: 16px; place-content: center; width: 100%; }
+
+        /* RUBI 標音樣式優化：確保在正上方且無括號 */
+        ruby { 
+            ruby-align: center; 
+            ruby-position: over; 
+        }
+        rt { 
+            font-size: 0.55em; 
+            color: inherit; 
+            opacity: 0.95; 
+            font-weight: 500; 
+            line-height: 1;
+        }
+
+        .answer-text {
+            color: #e63946; font-weight: 700; background-color: #fff0f0;
+            padding: 0 10px; border-radius: 4px; border-bottom: 2px solid #e63946;
+        }
+        
+        .answer-badge {
+            background-color: #e63946; color: #ffffff; font-size: 20px;
+            padding: 4px 12px; border-radius: 20px; vertical-align: middle;
+            margin-left: 15px; font-weight: 700; display: inline-block;
+        }
+
+        .slide-container h1, .slide-container h2, .slide-container h3, .slide-title { font-weight: 700; margin: 0; color: #005088; }
+        .slide-container h1 { font-size: 56px; line-height: 1.2; letter-spacing: 2px; text-align: center; }
+        .slide-container h2.slide-title {
+            font-size: 42px; line-height: 1.2; letter-spacing: 1px;
+            margin-bottom: 15px; width: 100%; text-align: left;
+            border-bottom: 2px solid #11caa0; padding-bottom: 10px;
+        }
+        .slide-container h3 { font-size: 28px; margin-bottom: 10px; }
+        .slide-container p, .slide-container li, .slide-container .subtitle {
+            font-size: 20px; line-height: 1.8; color: #334155; margin-top: 5px; margin-bottom: 5px;
+        }
+        .slide-container .subtitle { font-size: 24px; font-weight: 400; margin-top: 15px; text-align: center; }
+        .cn-translation { color: #64748b !important; font-size: 16px !important; margin-top: 0px !important; margin-bottom: 5px !important; }
+
+        .content-area { align-items: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: center; width: 100%; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; align-items: center; }
+        .two-column ul { list-style: none; margin: 0; padding-left: 0; }
+        .two-column li { margin-bottom: 10px; position: relative; padding-left: 30px; }
+        .two-column li i { position: absolute; left: 0; top: 5px; color: #11caa0; }
+
+        .image-wrapper { border-radius: 12px; height: 320px; overflow: hidden; width: 100%; border: 2px solid #005088; display:flex; align-items:center; justify-content:center; background-color:#f0f4f8; }
+        .image-wrapper svg { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* 單字頁面專屬排版 (字變大、圖變小) */
+        .vocab-layout { grid-template-columns: 1.6fr 1fr; gap: 40px; }
+        .vocab-layout .image-wrapper { height: 280px; max-width: 380px; margin: 0 auto; }
+        .vocab-list li { font-size: 32px !important; margin-bottom: 25px !important; padding-left: 50px !important; line-height: 1.5; }
+        .vocab-list i { font-size: 34px !important; top: 6px !important; }
+        .vocab-example { font-size: 26px !important; line-height: 1.6 !important; }
+
+        .tiled-content { align-items: stretch; display: flex; gap: 20px; width: 100%; justify-content: center; }
+        .tile {
+            align-items: center; background-color: #005088; border-radius: 12px; display: flex;
+            flex-direction: column; flex: 1; padding: 20px 15px; text-align: center; border: 2px solid #11caa0;
+        }
+        .tile .icon { color: #11caa0; font-size: 40px; margin-bottom: 10px; }
+        .tile p, .tile h3 { color: #f3f0df; }
+        .tile .cn-translation { color: #cbd5e1 !important; }
+
+        .two-column.tiled > div { background-color: #f0f4f8; border-radius: 12px; border: 2px solid #005088; padding: 25px; }
+        .two-column.tiled h3 { color: #005088; border-bottom: 2px solid #11caa0; padding-bottom: 10px; margin-top: 0; }
+
+        .rounded-image-layout .image-wrapper { border-radius: 50%; flex-shrink: 0; height: 280px; width: 280px; max-width: 280px; margin: 0 auto; border: 4px solid #11caa0; background-color:#f0f4f8; overflow:hidden;}
+
+        .highlight-numbers-layout > div:first-child { flex: 0 0 40%; text-align: center; }
+        .highlight-numbers-layout .number { color: #11caa0; font-size: 80px; font-weight: 700; line-height: 1.2; }
+        .highlight-numbers-layout .number-label { font-size: 26px; font-weight: 700; color: #005088; margin-top: 10px; }
+
+        .slide-container.bleed-image-layout { align-items: start; display: grid; gap: 40px; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+        .slide-container.bleed-image-layout > .content-container { padding: 40px 0 40px 40px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .slide-container.bleed-image-layout > .image-container { height: 100%; overflow: hidden; width: 100%; background-color:#f0f4f8; display:flex;}
+        .slide-container.bleed-image-layout svg.bleed-image-side { border-radius: 0; display: block; height: 720px; width: 100%; object-fit: cover;}
+
+        .bullet-list { max-width: 900px; width: 100%; }
+        .bullet-list ul { list-style: none; margin: 0; padding: 0; }
+        .bullet-list li { gap: 15px; margin-bottom: 15px; padding-left: 50px; position: relative; }
+        .bullet-list i { color: #11caa0; font-size: 24px; left: 0; margin-top: 5px; position: absolute; text-align: center; top: 0; }
+
+        .qa-layout { margin: 0 auto; text-align: center; width: 100%; align-self: center; }
+        .qa-layout h2 { font-size: 60px; margin-bottom: 10px; color: #11caa0; }
+        .qa-layout p { font-size: 24px; }
+        .qa-layout .contact-info { color: #005088; font-size: 22px; margin-top: 25px; padding: 15px; border-top: 2px dashed #11caa0; }
+
+        .section-title-layout { align-items: center; display: flex; flex-direction: column; height: 100%; justify-content: center; text-align: center; width: 100%; }
+        .section-title-layout h2 { font-size: 50px; margin-bottom: 15px; color: #11caa0; }
+        .section-title-layout hr { background-color: #005088; border: none; height: 5px; margin: 20px auto; width: 150px; }
+
+        .dialog-line { margin-bottom: 15px; line-height: 1.8; } 
+        .dialog-speaker { font-weight: 700; color: #11caa0; }
+        .highlight-text { color: #11caa0; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <!-- Slide 1: Title_Slide -->
+    <div class="slide-container active" id="slide1">
+        <div class="content-area title-layout">
+            <h1 style="color: #11caa0;">N4~N3 <ruby>実<rt>じつ</rt></ruby><ruby>践<rt>せん</rt></ruby><ruby>日<rt>に</rt></ruby><ruby>本<rt>ほん</rt></ruby><ruby>語<rt>ご</rt></ruby></h1>
+            <hr style="background-color: #005088; border: none; height: 3px; margin: 20px auto; width: 200px;">
+            <h1><ruby>第<rt>だい</rt></ruby>6<ruby>課<rt>か</rt></ruby>：<ruby>病院<rt>びょういん</rt></ruby>と<ruby>薬局<rt>やっきょく</rt></ruby></h1>
+            <p class="subtitle cn-translation">( 第六課：生病看醫生與去藥局 )</p>
+            <div style="margin-top: 20px; text-align: left; background: #f0f4f8; padding: 15px 30px; border-radius: 12px; border-left: 5px solid #11caa0;">
+                <p style="margin: 0; font-weight: 700; color:#11caa0;">[ ターゲット / 學習目標 ]</p>
+                <ol style="margin-top: 5px; margin-bottom: 0; font-size: 20px;">
+                    <li><ruby>症状<rt>しょうじょう</rt></ruby>を<ruby>説明<rt>せつめい</rt></ruby>する <span class="cn-translation">(向醫生說明症狀)</span></li>
+                    <li>アドバイスをもらう <span class="cn-translation">(聽取建議與診斷)</span></li>
+                    <li><ruby>薬<rt>くすり</rt></ruby>の<ruby>飲<rt>の</rt></ruby>み<ruby>方<rt>かた</rt></ruby> <span class="cn-translation">(了解吃藥的規則)</span></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Warm-up -->
+    <div class="slide-container" id="slide2">
+        <h2 class="slide-title">ウォームアップ <span class="cn-translation">(暖身互動)</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3><ruby>質問<rt>しつもん</rt></ruby>：</h3>
+                    <p>もし日本で<ruby>突然<rt>とつぜん</rt></ruby><ruby>熱<rt>ねつ</rt></ruby>が出たら、<br>お<ruby>医者<rt>いしゃ</rt></ruby>さんにどうやって<ruby>説明<rt>せつめい</rt></ruby>しますか？</p>
+                    <p class="cn-translation">(如果在日本突然發燒了，你要怎麼跟醫生說明自己的症狀呢？)</p>
+                    
+                    <h3 style="margin-top: 20px; color:#11caa0;">フリー・トーク：</h3>
+                    <p style="font-weight: 700;"><i class="fa-regular fa-comments"></i> 自由に答えてみましょう！</p>
+                    <p class="cn-translation">(發燒、咳嗽、頭痛的日文該怎麼說？)</p>
+                </div>
+                <div>
+                    <!-- SVG 插圖：生病發燒的人 -->
+                    <div class="image-wrapper">
+                        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background elements -->
+                            <circle cx="400" cy="300" r="180" fill="#f8fafc" stroke="#cbd5e1" stroke-width="8"/>
+                            <!-- Face -->
+                            <circle cx="400" cy="300" r="100" fill="#fde047"/>
+                            <!-- Flush/Fever cheeks -->
+                            <ellipse cx="340" cy="320" rx="20" ry="15" fill="#ef4444" opacity="0.6"/>
+                            <ellipse cx="460" cy="320" rx="20" ry="15" fill="#ef4444" opacity="0.6"/>
+                            <!-- Eyes (dizzy) -->
+                            <path d="M 330 280 Q 350 260 370 280" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M 430 280 Q 450 260 470 280" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <!-- Mouth -->
+                            <path d="M 380 350 Q 400 370 420 350" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <!-- Thermometer -->
+                            <path d="M 410 360 L 480 430" stroke="#ffffff" stroke-width="15" stroke-linecap="round"/>
+                            <path d="M 410 360 L 480 430" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+                            <circle cx="485" cy="435" r="15" fill="#ef4444"/>
+                            <!-- Sweat drops -->
+                            <path d="M 310 210 Q 300 240 320 240 Q 330 240 310 210" fill="#60a5fa"/>
+                            <path d="M 490 220 Q 480 250 500 250 Q 510 250 490 220" fill="#60a5fa"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Vocab 1 -->
+    <div class="slide-container" id="slide3">
+        <h2 class="slide-title"><ruby>単語<rt>たんご</rt></ruby> 1：<ruby>症状<rt>しょうじょう</rt></ruby> <span class="cn-translation">(常見症狀)</span></h2>
+        <div class="content-area">
+            <!-- 單字排版優化：字放大、圖縮小 -->
+            <div class="two-column vocab-layout">
+                <div>
+                    <ul class="bullet-list vocab-list">
+                        <li><i class="fa-solid fa-temperature-high"></i> <strong><ruby>熱<rt>ねつ</rt></ruby>がある / <ruby>出<rt>で</rt></ruby>る</strong> <span class="cn-translation">發燒</span></li>
+                        <li><i class="fa-solid fa-head-side-cough"></i> <strong><ruby>咳<rt>せき</rt></ruby>が<ruby>出<rt>で</rt></ruby>る</strong> <span class="cn-translation">咳嗽</span></li>
+                        <li><i class="fa-solid fa-bolt"></i> <strong><ruby>喉<rt>のど</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>い</strong> <span class="cn-translation">喉嚨痛</span></li>
+                        <li><i class="fa-solid fa-face-dizzy"></i> <strong><ruby>吐<rt>は</rt></ruby>き<ruby>気<rt>け</rt></ruby>がする</strong> <span class="cn-translation">想吐、噁心</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 單字配圖 -->
+                    <div class="image-wrapper">
+                        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="250" y="150" width="300" height="300" rx="150" fill="#fde047" stroke="#cbd5e1" stroke-width="8"/>
+                            <path d="M 330 250 Q 360 210 390 250" fill="none" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M 410 250 Q 440 210 470 250" fill="none" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/>
+                            <!-- Tissue for coughing -->
+                            <path d="M 360 350 Q 400 320 440 350 L 460 420 L 340 420 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="5"/>
+                            <circle cx="400" cy="380" r="15" fill="#ef4444" opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <!-- 單字例句也放大 -->
+            <div style="background-color: #005088; padding: 15px 30px; border-radius: 12px; width: 100%; margin-top: 10px;">
+                <h3 style="color: #11caa0; margin-bottom: 5px; font-size: 26px;"><ruby>例文<rt>れいぶん</rt></ruby> (例句)</h3>
+                <p class="vocab-example" style="color: #f3f0df; margin-bottom: 0;">昨日から<strong><ruby>熱<rt>ねつ</rt></ruby>があって</strong>、<strong><ruby>咳<rt>せき</rt></ruby>も<ruby>出<rt>で</rt></ruby>ます</strong>。</p>
+                <p class="cn-translation" style="color: #cbd5e1 !important; margin-bottom: 0; font-size: 18px !important;">(從昨天開始發燒，而且還咳嗽。)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Vocab 1 Practice (QUESTION) -->
+    <div class="slide-container" id="slide4">
+        <h2 class="slide-title"><ruby>練習<rt>れんしゅう</rt></ruby>しましょう！ <span class="cn-translation">(來練習吧！)</span></h2>
+        <div class="content-area">
+            <h3 style="text-align: center; margin-bottom: 20px;">正しい単語を入れましょう！<br><span class="cn-translation" style="font-size: 18px;">(請填入正確的單字並唸出來)</span></h3>
+            <div style="background-color: #f0f4f8; padding: 20px 40px; border-radius: 12px; margin-bottom: 20px; border: 2px dashed #005088;">
+                <h2 style="color: #005088; text-align: center; margin: 0; line-height: 1.6;">
+                    ＿＿＿＿＿ が<ruby>痛<rt>いた</rt></ruby>くて、<br>
+                    ＿＿＿＿＿ も<ruby>出<rt>で</rt></ruby>るんです。
+                </h2>
+                <p class="cn-translation" style="text-align:center; margin-top:10px;">(我喉嚨痛，而且還會咳嗽。)</p>
+            </div>
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3><ruby>喉<rt>のど</rt></ruby></h3>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-head-side-cough"></i></div>
+                    <h3><ruby>咳<rt>せき</rt></ruby></h3>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-temperature-high"></i></div>
+                    <h3><ruby>熱<rt>ねつ</rt></ruby></h3>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-face-dizzy"></i></div>
+                    <h3><ruby>吐<rt>は</rt></ruby>き<ruby>気<rt>け</rt></ruby></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Vocab 1 Practice (ANSWER) -->
+    <div class="slide-container" id="slide4-ans">
+        <h2 class="slide-title"><ruby>練習<rt>れんしゅう</rt></ruby>しましょう！ <span class="answer-badge">解答例</span></h2>
+        <div class="content-area">
+            <h3 style="text-align: center; margin-bottom: 20px;">正しい単語を入れましょう！<br><span class="cn-translation" style="font-size: 18px;">(請填入正確的單字並唸出來)</span></h3>
+            <div style="background-color: #fff0f0; padding: 20px 40px; border-radius: 12px; margin-bottom: 20px; border: 2px dashed #e63946;">
+                <h2 style="color: #005088; text-align: center; margin: 0; line-height: 1.6;">
+                    <span class="answer-text"><ruby>喉<rt>のど</rt></ruby></span> が<ruby>痛<rt>いた</rt></ruby>くて、<br>
+                    <span class="answer-text"><ruby>咳<rt>せき</rt></ruby></span> も<ruby>出<rt>で</rt></ruby>るんです。
+                </h2>
+                <p class="cn-translation" style="text-align:center; margin-top:10px;">(我喉嚨痛，而且還會咳嗽。)</p>
+            </div>
+            <div class="tiled-content">
+                <div class="tile" style="border-color: #e63946; border-width: 4px; opacity: 1;">
+                    <div class="icon" style="color:#e63946;"><i class="fa-solid fa-bolt"></i></div>
+                    <h3><ruby>喉<rt>のど</rt></ruby></h3>
+                </div>
+                <div class="tile" style="border-color: #e63946; border-width: 4px; opacity: 1;">
+                    <div class="icon" style="color:#e63946;"><i class="fa-solid fa-head-side-cough"></i></div>
+                    <h3><ruby>咳<rt>せき</rt></ruby></h3>
+                </div>
+                <div class="tile" style="opacity: 0.5;">
+                    <div class="icon"><i class="fa-solid fa-temperature-high"></i></div>
+                    <h3><ruby>熱<rt>ねつ</rt></ruby></h3>
+                </div>
+                <div class="tile" style="opacity: 0.5;">
+                    <div class="icon"><i class="fa-solid fa-face-dizzy"></i></div>
+                    <h3><ruby>吐<rt>は</rt></ruby>き<ruby>気<rt>け</rt></ruby></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Vocab 2 -->
+    <div class="slide-container" id="slide5">
+        <h2 class="slide-title"><ruby>単語<rt>たんご</rt></ruby> 2：<ruby>病院<rt>びょういん</rt></ruby>と<ruby>薬局<rt>やっきょく</rt></ruby> <span class="cn-translation">(醫院與藥局)</span></h2>
+        <div class="content-area">
+            <div class="two-column vocab-layout">
+                <div>
+                    <ul class="bullet-list vocab-list">
+                        <li><i class="fa-solid fa-id-card"></i> <strong><ruby>保険証<rt>ほけんしょう</rt></ruby></strong> <span class="cn-translation">健康保險卡</span></li>
+                        <li><i class="fa-solid fa-clipboard-user"></i> <strong><ruby>診察券<rt>しんさつけん</rt></ruby></strong> <span class="cn-translation">掛號證、看診卡</span></li>
+                        <li><i class="fa-solid fa-file-prescription"></i> <strong><ruby>処方箋<rt>しょほうせん</rt></ruby></strong> <span class="cn-translation">處方籤</span></li>
+                        <li><i class="fa-solid fa-pills"></i> <strong><ruby>食後<rt>しょくご</rt></ruby></strong> <span class="cn-translation">飯後 (吃藥時間)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- SVG 插圖：藥品與處方籤 -->
+                    <div class="image-wrapper">
+                        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Paper (Prescription) -->
+                            <rect x="250" y="100" width="200" height="250" fill="#ffffff" stroke="#cbd5e1" stroke-width="4" transform="rotate(-10 350 250)"/>
+                            <line x1="280" y1="150" x2="400" y2="150" stroke="#005088" stroke-width="6" transform="rotate(-10 350 250)"/>
+                            <line x1="280" y1="180" x2="420" y2="180" stroke="#005088" stroke-width="4" transform="rotate(-10 350 250)"/>
+                            <!-- Blister Pack -->
+                            <rect x="400" y="280" width="160" height="100" rx="10" fill="#cbd5e1" stroke="#94a3b8" stroke-width="4"/>
+                            <circle cx="440" cy="305" r="15" fill="#ffffff"/>
+                            <circle cx="480" cy="305" r="15" fill="#ffffff"/>
+                            <circle cx="520" cy="305" r="15" fill="#ffffff"/>
+                            <circle cx="440" cy="355" r="15" fill="#ffffff"/>
+                            <circle cx="480" cy="355" r="15" fill="#ffffff"/>
+                            <circle cx="520" cy="355" r="15" fill="#ffffff"/>
+                            <!-- Capsule -->
+                            <rect x="300" y="400" width="80" height="30" rx="15" fill="#ef4444" transform="rotate(20 340 415)"/>
+                            <path d="M 340 400 A 15 15 0 0 1 380 415 A 15 15 0 0 1 340 430 Z" fill="#ffffff" transform="rotate(20 340 415)"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div style="background-color: #005088; padding: 15px 30px; border-radius: 12px; width: 100%; margin-top: 10px;">
+                <h3 style="color: #11caa0; margin-bottom: 5px; font-size: 26px;"><ruby>例文<rt>れいぶん</rt></ruby> (例句)</h3>
+                <p class="vocab-example" style="color: #f3f0df; margin-bottom: 0;"><strong><ruby>薬局<rt>やっきょく</rt></ruby></strong>で<strong><ruby>処方箋<rt>しょほうせん</rt></ruby></strong>を<ruby>出<rt>だ</rt></ruby>して、<ruby>薬<rt>くすり</rt></ruby>をもらいます。</p>
+                <p class="cn-translation" style="color:#cbd5e1 !important; margin:0; font-size: 18px !important;">(在藥局出示處方籤，領取藥物。)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Vocab 2 Practice (QUESTION) -->
+    <div class="slide-container" id="slide6">
+        <h2 class="slide-title"><ruby>練習<rt>れんしゅう</rt></ruby>しましょう！ <span class="cn-translation">(來練習吧！)</span></h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3 style="text-align: center; margin-bottom: 10px;"><ruby>状況<rt>じょうきょう</rt></ruby> (情境)</h3>
+                    <p style="margin-bottom: 10px;">你看完醫生準備去領藥。請結合剛剛的單字完成句子！</p>
+                    <div style="font-size: 80px; text-align: center; color: #11caa0; margin-top: 20px;">
+                        <i class="fa-solid fa-file-prescription"></i> + <i class="fa-solid fa-pills"></i>
+                    </div>
+                </div>
+                <div style="background-color: #005088;">
+                    <h3 style="color: #11caa0; text-align: center; border-bottom: 2px solid #f3f0df;"><ruby>話<rt>はな</rt></ruby>してみよう (試著說)</h3>
+                    <ol style="line-height: 1.8; font-size: 22px; padding-left: 20px; margin-top: 15px; margin-bottom: 0;">
+                        <li style="color: #f3f0df;"><ruby>薬局<rt>やっきょく</rt></ruby>に ＿＿＿＿＿ を<ruby>出<rt>だ</rt></ruby>します。<br><span class="cn-translation" style="color: #cbd5e1 !important;">(向藥局出示處方籤。)</span></li>
+                        <li style="color: #f3f0df;">この<ruby>薬<rt>くすり</rt></ruby>は ＿＿＿＿＿ に<ruby>飲<rt>の</rt></ruby>んでください。<br><span class="cn-translation" style="color: #cbd5e1 !important;">(這個藥請在飯後服用。)</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Vocab 2 Practice (ANSWER) -->
+    <div class="slide-container" id="slide6-ans">
+        <h2 class="slide-title"><ruby>練習<rt>れんしゅう</rt></ruby>しましょう！ <span class="answer-badge">解答例</span></h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3 style="text-align: center; margin-bottom: 10px;"><ruby>状況<rt>じょうきょう</rt></ruby> (情境)</h3>
+                    <p style="margin-bottom: 10px;">你看完醫生準備去領藥。請結合剛剛的單字完成句子！</p>
+                    <div style="font-size: 80px; text-align: center; color: #11caa0; margin-top: 20px;">
+                        <i class="fa-solid fa-file-prescription"></i> + <i class="fa-solid fa-pills"></i>
+                    </div>
+                </div>
+                <div style="background-color: #005088;">
+                    <h3 style="color: #11caa0; text-align: center; border-bottom: 2px solid #f3f0df;"><ruby>話<rt>はな</rt></ruby>してみよう (試著說)</h3>
+                    <ol style="line-height: 1.8; font-size: 22px; padding-left: 20px; margin-top: 15px; margin-bottom: 0;">
+                        <li style="color: #f3f0df;"><ruby>薬局<rt>やっきょく</rt></ruby>に <span class="answer-text"><ruby>処方箋<rt>しょほうせん</rt></ruby></span> を<ruby>出<rt>だ</rt></ruby>します。<br><span class="cn-translation" style="color: #cbd5e1 !important;">(向藥局出示處方籤。)</span></li>
+                        <li style="color: #f3f0df;">この<ruby>薬<rt>くすり</rt></ruby>は <span class="answer-text"><ruby>食後<rt>しょくご</rt></ruby></span> に<ruby>飲<rt>の</rt></ruby>んでください。<br><span class="cn-translation" style="color: #cbd5e1 !important;">(這個藥請在飯後服用。)</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Grammar 1 -->
+    <div class="slide-container" id="slide7">
+        <div class="section-title-layout">
+            <hr>
+            <h2><ruby>文法<rt>ぶんぽう</rt></ruby> 1</h2>
+            <h1 style="font-size: 60px; margin: 20px 0;">〜たほうがいいです</h1>
+            <p class="subtitle cn-translation" style="font-size: 28px;">( 最好... / 建議做某事 )</p>
+            <div style="background-color: #f0f4f8; border: 2px solid #005088; padding: 25px 40px; border-radius: 12px; margin-top: 30px; text-align: left;">
+                <p style="font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #005088;"><ruby>相手<rt>あいて</rt></ruby>にアドバイスをする時（とき）に使（つか）います。</p>
+                <p style="margin-bottom: 0; font-size: 22px; line-height:1.6;">動詞（どうし）た形（けい） ＋ <strong>ほうがいいです</strong><br>
+                動詞（どうし）ない形（けい） ＋ <strong>ないほうがいいです</strong><br>
+                <span class="cn-translation" style="font-size: 18px !important;">(用於給予對方建議或忠告，例如醫生建議病人「最好多休息」、「最好不要勉強」。)</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Grammar 1 Practice (QUESTION) -->
+    <div class="slide-container" id="slide8">
+        <h2 class="slide-title">アドバイスをしましょう！ <span class="cn-translation">(給予建議吧！)</span></h2>
+        <div class="content-area">
+            <h3 style="color: #11caa0; margin-bottom: 25px;">「〜た/ない ほうがいいです」に変えてください。</h3>
+            
+            <div style="width: 90%; border-left: 8px solid #11caa0; padding-left: 30px; background-color: #f0f4f8; padding-top: 15px; padding-bottom: 15px; border-radius: 0 12px 12px 0;">
+                <p style="font-size: 24px; line-height: 1.8; margin: 0;">
+                    1. <ruby>早<rt>はや</rt></ruby>く<ruby>寝<rt>ね</rt></ruby>ます。<span class="cn-translation" style="font-size: 18px !important;">(早點睡覺)</span><br>
+                    ➔ <ruby>熱<rt>ねつ</rt></ruby>があるから、<ruby>早<rt>はや</rt></ruby>く ＿＿＿＿＿＿＿＿＿＿＿＿ 。<br><br>
+                    
+                    2. <ruby>無理<rt>むり</rt></ruby>をしません。<span class="cn-translation" style="font-size: 18px !important;">(不要勉強)</span><br>
+                    ➔ 今日は<ruby>仕事<rt>しごと</rt></ruby>を<ruby>休<rt>やす</rt></ruby>んで、<ruby>無理<rt>むり</rt></ruby>を ＿＿＿＿＿＿＿＿＿＿＿＿ 。<br>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Grammar 1 Practice (ANSWER) -->
+    <div class="slide-container" id="slide8-ans">
+        <h2 class="slide-title">アドバイスをしましょう！ <span class="answer-badge">解答</span></h2>
+        <div class="content-area">
+            <h3 style="color: #11caa0; margin-bottom: 25px;">「〜た/ない ほうがいいです」に変えてください。</h3>
+            
+            <div style="width: 90%; border-left: 8px solid #11caa0; padding-left: 30px; background-color: #f0f4f8; padding-top: 15px; padding-bottom: 15px; border-radius: 0 12px 12px 0;">
+                <p style="font-size: 24px; line-height: 1.8; margin: 0;">
+                    1. <ruby>早<rt>はや</rt></ruby>く<ruby>寝<rt>ね</rt></ruby>ます。<span class="cn-translation" style="font-size: 18px !important;">(早點睡覺)</span><br>
+                    ➔ <ruby>熱<rt>ねつ</rt></ruby>があるから、<ruby>早<rt>はや</rt></ruby>く <span class="answer-text"><ruby>寝<rt>ね</rt></ruby>たほうがいいです</span> 。<br><br>
+                    
+                    2. <ruby>無理<rt>むり</rt></ruby>をしません。<span class="cn-translation" style="font-size: 18px !important;">(不要勉強)</span><br>
+                    ➔ 今日は<ruby>仕事<rt>しごと</rt></ruby>を<ruby>休<rt>やす</rt></ruby>んで、<ruby>無理<rt>むり</rt></ruby>を <span class="answer-text">しないほうがいいです</span> 。<br>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Grammar 2 -->
+    <div class="slide-container bleed-image-layout" id="slide9">
+        <div class="content-container">
+            <h2 class="slide-title"><ruby>文法<rt>ぶんぽう</rt></ruby> 2</h2>
+            <h1 style="font-size: 40px; margin-bottom: 5px; line-height: 1.4;">〜なければなりません</h1>
+            <p class="cn-translation" style="font-size: 22px !important; margin-bottom: 20px;">( 必須... / 不做不行 )</p>
+            
+            <div style="border-left: 5px solid #11caa0; padding-left: 20px; margin-bottom: 20px; background-color: #f0f4f8; padding-top: 15px; padding-bottom: 15px;">
+                <p style="margin-top: 0;"><strong>ルールや<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>表<rt>あらわ</rt></ruby>します。</strong></p>
+                <p style="margin-bottom: 0;">会話（かいわ）では「〜ないといけません / 〜なきゃ」もよく使います。<br><span class="cn-translation">(表示義務或規則，也就是「必須做某事」。在說明吃藥規定或看診手續時一定會聽到。)</span></p>
+            </div>
+
+            <div style="background-color: #005088; padding: 15px; border-radius: 8px;">
+                <p style="margin:0; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 22px; text-align:center; color: #f3f0df;">
+                    動詞（どうし）ない形（けい）（ない を取る） ＋ なければなりません
+                </p>
+            </div>
+            <p style="margin-top: 15px;"><strong><ruby>例<rt>れい</rt></ruby>：</strong><ruby>病院<rt>びょういん</rt></ruby>で<ruby>保険証<rt>ほけんしょう</rt></ruby>を出さ<span class="highlight-text">なければなりません</span>。</p>
+        </div>
+        <div class="image-container">
+            <!-- SVG 插圖：吃藥與時鐘 -->
+            <svg class="bleed-image-side" viewBox="0 0 800 720" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="background-color: #f0f4f8;">
+                <!-- Clock -->
+                <circle cx="400" cy="250" r="120" fill="#ffffff" stroke="#005088" stroke-width="12"/>
+                <line x1="400" y1="250" x2="400" y2="170" stroke="#005088" stroke-width="10" stroke-linecap="round"/>
+                <line x1="400" y1="250" x2="460" y2="250" stroke="#ef4444" stroke-width="8" stroke-linecap="round"/>
+                <circle cx="400" cy="250" r="10" fill="#005088"/>
+                <!-- Exclamation Rule -->
+                <path d="M 360 450 L 440 450 L 420 600 L 380 600 Z" fill="#f59e0b"/>
+                <circle cx="400" cy="650" r="25" fill="#f59e0b"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Slide 13: Grammar 2 Practice (QUESTION) -->
+    <div class="slide-container" id="slide10">
+        <h2 class="slide-title">ルールを確認！ <span class="cn-translation">(確認規則吧！)</span></h2>
+        <div class="content-area">
+            <p style="text-align: center; font-size: 24px; margin-bottom: 25px;">請將以下動作改為「必須...」的句型。</p>
+            <div class="bullet-list" style="max-width: 1000px; background-color: #f0f4f8; padding: 25px 40px; border-radius: 12px; border: 1px solid #cbd5e1;">
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-pills"></i> 
+                        <strong>1<ruby>日<rt>にち</rt></ruby>3<ruby>回<rt>かい</rt></ruby><ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みます。</strong> <span class="cn-translation">(一天吃三次藥)</span>
+                        <div style="margin-top: 10px;"><span style="color:#11caa0; font-weight:bold;">➔ 1日3回薬を</span> <u style="text-underline-offset: 8px; color:#005088;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></div>
+                    </li>
+                    <hr style="border: 1px dashed #cbd5e1; margin: 15px 0;">
+                    <li>
+                        <i class="fa-solid fa-id-card"></i> 
+                        <strong><ruby>受付<rt>うけつけ</rt></ruby>で<ruby>保険証<rt>ほけんしょう</rt></ruby>を<ruby>見<rt>み</rt></ruby>せます。</strong> <span class="cn-translation">(在櫃檯出示健保卡)</span>
+                        <div style="margin-top: 10px;"><span style="color:#11caa0; font-weight:bold;">➔ 受付で保険証を</span> <u style="text-underline-offset: 8px; color:#005088;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: Grammar 2 Practice (ANSWER) -->
+    <div class="slide-container" id="slide10-ans">
+        <h2 class="slide-title">ルールを確認！ <span class="answer-badge">解答</span></h2>
+        <div class="content-area">
+            <p style="text-align: center; font-size: 24px; margin-bottom: 25px;">請將以下動作改為「必須...」的句型。</p>
+            <div class="bullet-list" style="max-width: 1000px; background-color: #f0f4f8; padding: 25px 40px; border-radius: 12px; border: 1px solid #cbd5e1;">
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-pills"></i> 
+                        <strong>1<ruby>日<rt>にち</rt></ruby>3<ruby>回<rt>かい</rt></ruby><ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みます。</strong> <span class="cn-translation">(一天吃三次藥)</span>
+                        <div style="margin-top: 10px;"><span style="color:#11caa0; font-weight:bold;">➔ 1日3回薬を</span> <span class="answer-text"><ruby>飲<rt>の</rt></ruby>まなければなりません</span>。</div>
+                    </li>
+                    <hr style="border: 1px dashed #cbd5e1; margin: 15px 0;">
+                    <li>
+                        <i class="fa-solid fa-id-card"></i> 
+                        <strong><ruby>受付<rt>うけつけ</rt></ruby>で<ruby>保険証<rt>ほけんしょう</rt></ruby>を<ruby>見<rt>み</rt></ruby>せます。</strong> <span class="cn-translation">(在櫃檯出示健保卡)</span>
+                        <div style="margin-top: 10px;"><span style="color:#11caa0; font-weight:bold;">➔ 受付で保険証を</span> <span class="answer-text"><ruby>見<rt>み</rt></ruby>せなければなりません</span>。</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Dialog 1 -->
+    <div class="slide-container" id="slide13">
+        <h2 class="slide-title"><ruby>会話<rt>かいわ</rt></ruby> 1：<ruby>診察<rt>しんさつ</rt></ruby>を<ruby>受<rt>う</rt></ruby>ける <span class="cn-translation">(接受看診)</span></h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout" style="align-items: center; grid-template-columns: 1fr 2.5fr; gap: 40px;">
+                <div>
+                    <!-- SVG 插圖：醫生看診 -->
+                    <div class="image-wrapper" style="height: 220px; width: 220px; border-color:#11caa0; border-width:4px;">
+                        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Doctor -->
+                            <path d="M 60 220 Q 110 120 160 220 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/> <!-- white coat -->
+                            <circle cx="110" cy="100" r="35" fill="#fcd34d"/> <!-- face -->
+                            <!-- Stethoscope -->
+                            <path d="M 85 140 Q 110 180 135 140" fill="none" stroke="#1e293b" stroke-width="5"/>
+                            <path d="M 135 140 L 135 190" stroke="#1e293b" stroke-width="5"/>
+                            <circle cx="135" cy="195" r="8" fill="#005088"/>
+                            <!-- Glasses -->
+                            <rect x="85" y="90" width="20" height="10" fill="none" stroke="#1e293b" stroke-width="2"/>
+                            <rect x="115" y="90" width="20" height="10" fill="none" stroke="#1e293b" stroke-width="2"/>
+                            <line x1="105" y1="95" x2="115" y2="95" stroke="#1e293b" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+                <div style="font-size: 26px; line-height: 1.8;">
+                    <div class="dialog-line" style="margin-bottom: 15px;">
+                        <span class="dialog-speaker">お<ruby>医者<rt>いしゃ</rt></ruby>さん：</span>
+                        どうしましたか。
+                        <div class="cn-translation" style="font-size: 18px !important;">(你怎麼了嗎？)</div>
+                    </div>
+                    <div class="dialog-line" style="margin-bottom: 15px;">
+                        <span class="dialog-speaker">林：</span>
+                        昨日から<ruby>熱<rt>ねつ</rt></ruby>があって、<ruby>喉<rt>のど</rt></ruby>も<ruby>痛<rt>いた</rt></ruby>い<span class="highlight-text">んです</span>。
+                        <div class="cn-translation" style="font-size: 18px !important;">(我從昨天開始發燒，而且喉嚨也很痛。)</div>
+                    </div>
+                    <div class="dialog-line" style="margin-bottom: 15px;">
+                        <span class="dialog-speaker">お<ruby>医者<rt>いしゃ</rt></ruby>さん：</span>
+                        <ruby>風邪<rt>かぜ</rt></ruby>ですね。<ruby>薬<rt>くすり</rt></ruby>を出しておきますから、ゆっくり<ruby>休<rt>やす</rt></ruby>ん<span class="highlight-text">だほうがいいですよ</span>。
+                        <div class="cn-translation" style="font-size: 18px !important;">(是感冒呢。我會開藥給你，你最好多休息喔。)</div>
+                    </div>
+                    <div class="dialog-line" style="margin-bottom: 0;">
+                        <span class="dialog-speaker">林：</span>
+                        はい、わかりました。ありがとうございます。
+                        <div class="cn-translation" style="font-size: 18px !important;">(好的，我知道了。謝謝您。)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Dialog 1 Roleplay -->
+    <div class="slide-container" id="slide14">
+        <h2 class="slide-title">ロールプレイ <span class="cn-translation">(角色扮演)</span></h2>
+        <div class="content-area">
+            <p style="font-size: 26px; color:#11caa0; text-align: center; margin-bottom: 25px;"><i class="fa-solid fa-masks-theater"></i> 現在把關鍵字遮住，請試著看著填空說出来！</p>
+            
+            <div style="background-color: #f0f4f8; border: 2px dashed #005088; padding: 35px 50px; border-radius: 12px; width: 100%; font-size: 32px; line-height: 1.8;">
+                <div class="dialog-line" style="margin-bottom: 20px;">
+                    <span class="dialog-speaker" style="color:#005088;">お<ruby>医者<rt>いしゃ</rt></ruby>さん：</span>
+                    どうしましたか。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 20px;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    昨日から <strong>[ ＿＿＿＿＿＿＿ ]</strong> 、<ruby>喉<rt>のど</rt></ruby>も<ruby>痛<rt>いた</rt></ruby>いんです。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 20px;">
+                    <span class="dialog-speaker" style="color:#005088;">お<ruby>医者<rt>いしゃ</rt></ruby>さん：</span>
+                    <ruby>風邪<rt>かぜ</rt></ruby>ですね。<ruby>薬<rt>くすり</rt></ruby>を出しておきますから、ゆっくり <strong>[ ＿＿＿＿＿＿＿＿＿＿ ]</strong> よ。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 0;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    はい、わかりました。ありがとうございます。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17: Dialog 1 Roleplay (ANSWER) -->
+    <div class="slide-container" id="slide14-ans">
+        <h2 class="slide-title">ロールプレイ <span class="answer-badge">解答</span></h2>
+        <div class="content-area">
+            <div style="background-color: #fff0f0; border: 2px dashed #e63946; padding: 35px 50px; border-radius: 12px; width: 100%; font-size: 32px; line-height: 1.8;">
+                <div class="dialog-line" style="margin-bottom: 20px;">
+                    <span class="dialog-speaker" style="color:#005088;">お<ruby>医者<rt>いしゃ</rt></ruby>さん：</span>
+                    どうしましたか。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 20px;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    昨日から <span class="answer-text"><ruby>熱<rt>ねつ</rt></ruby>があって</span> 、<ruby>喉<rt>のど</rt></ruby>も<ruby>痛<rt>いた</rt></ruby>いんです。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 20px;">
+                    <span class="dialog-speaker" style="color:#005088;">お<ruby>医者<rt>いしゃ</rt></ruby>さん：</span>
+                    <ruby>風邪<rt>かぜ</rt></ruby>ですね。<ruby>薬<rt>くすり</rt></ruby>を出しておきますから、ゆっくり <span class="answer-text"><ruby>休<rt>やす</rt></ruby>んだほうがいいです</span> よ。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 0;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    はい、わかりました。ありがとうございます。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 18: Dialog 2 -->
+    <div class="slide-container" id="slide15">
+        <h2 class="slide-title"><ruby>会話<rt>かいわ</rt></ruby> 2：<ruby>薬局<rt>やっきょく</rt></ruby>で <span class="cn-translation">(在藥局領藥)</span></h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout" style="align-items: center; grid-template-columns: 2.5fr 1fr; gap: 40px;">
+                <div style="font-size: 26px; line-height: 1.6;">
+                    <div class="dialog-line" style="margin-bottom: 18px;">
+                        <span class="dialog-speaker"><ruby>薬剤師<rt>やくざいし</rt></ruby>：</span>
+                        林さん、お<ruby>待<rt>ま</rt></ruby>たせしました。こちら、お<ruby>薬<rt>くすり</rt></ruby>です。
+                        <div class="cn-translation" style="font-size: 18px !important;">(林先生，讓您久等了。這是您的藥。)</div>
+                    </div>
+                    <div class="dialog-line" style="margin-bottom: 18px;">
+                        <span class="dialog-speaker">林：</span>
+                        はい、これはどうやって<ruby>飲<rt>の</rt></ruby>めばいいですか。
+                        <div class="cn-translation" style="font-size: 18px !important;">(好的，請問這個藥要怎麼吃呢？)</div>
+                    </div>
+                    <div class="dialog-line" style="margin-bottom: 18px;">
+                        <span class="dialog-speaker"><ruby>薬剤師<rt>やくざいし</rt></ruby>：</span>
+                        1日3回、<ruby>食後<rt>しょくご</rt></ruby>に<ruby>飲<rt>の</rt></ruby>ま<span class="highlight-text">なければなりません</span>。
+                        <div class="cn-translation" style="font-size: 18px !important;">(一天三次，必須在飯後服用。)</div>
+                    </div>
+                    <div class="dialog-line" style="margin-bottom: 0;">
+                        <span class="dialog-speaker">林：</span>
+                        わかりました。ありがとうございます。
+                        <div class="cn-translation" style="font-size: 18px !important;">(我知道了，謝謝。)</div>
+                    </div>
+                </div>
+                <div>
+                    <!-- SVG 插圖：藥局給藥袋 -->
+                    <div class="image-wrapper" style="height: 220px; width: 220px; border-color:#11caa0; border-width:4px;">
+                        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Counter -->
+                            <rect x="0" y="150" width="220" height="70" fill="#cbd5e1"/>
+                            <rect x="0" y="140" width="220" height="10" fill="#94a3b8"/>
+                            <!-- Hand handing out Medicine Bag -->
+                            <path d="M 220 80 Q 150 100 130 130 L 150 140 Z" fill="#f59e0b"/>
+                            <rect x="60" y="60" width="80" height="100" fill="#ffffff" stroke="#11caa0" stroke-width="4"/>
+                            <line x1="80" y1="80" x2="120" y2="80" stroke="#1e293b" stroke-width="4"/>
+                            <circle cx="100" cy="110" r="15" fill="#11caa0"/>
+                            <path d="M 100 95 L 100 125 M 85 110 L 115 110" stroke="#ffffff" stroke-width="4"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 19: Dialog 2 Roleplay -->
+    <div class="slide-container" id="slide16">
+        <h2 class="slide-title">ロールプレイ <span class="cn-translation">(角色扮演)</span></h2>
+        <div class="content-area">
+            <p style="font-size: 26px; color:#11caa0; text-align: center; margin-bottom: 25px;"><i class="fa-solid fa-pills"></i> 換你來聽取藥師的指示了！</p>
+            
+            <div style="background-color: #f0f4f8; border: 2px dashed #005088; padding: 35px 50px; border-radius: 12px; width: 100%; font-size: 32px; line-height: 1.8;">
+                <div class="dialog-line" style="margin-bottom: 25px;">
+                    <span class="dialog-speaker" style="color:#005088;"><ruby>薬剤師<rt>やくざいし</rt></ruby> (先生)：</span>
+                    林さん、お<ruby>待<rt>ま</rt></ruby>たせしました。こちら、お<ruby>薬<rt>くすり</rt></ruby>です。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 25px;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    はい、これはどうやって <strong>[ ＿＿＿＿＿＿＿＿ ]</strong> か。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 25px;">
+                    <span class="dialog-speaker" style="color:#005088;"><ruby>薬剤師<rt>やくざいし</rt></ruby> (先生)：</span>
+                    1日3回、<ruby>食後<rt>しょくご</rt></ruby>に <strong>[ ＿＿＿＿＿＿＿＿＿＿＿＿ ]</strong> 。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 0;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    わかりました。ありがとうございます。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 20: Dialog 2 Roleplay (ANSWER) -->
+    <div class="slide-container" id="slide16-ans">
+        <h2 class="slide-title">ロールプレイ <span class="answer-badge">解答例</span></h2>
+        <div class="content-area">
+            <div style="background-color: #fff0f0; border: 2px dashed #e63946; padding: 35px 50px; border-radius: 12px; width: 100%; font-size: 32px; line-height: 1.8;">
+                <div class="dialog-line" style="margin-bottom: 25px;">
+                    <span class="dialog-speaker" style="color:#005088;"><ruby>薬剤師<rt>やくざいし</rt></ruby> (先生)：</span>
+                    林さん、お<ruby>待<rt>ま</rt></ruby>たせしました。こちら、お<ruby>薬<rt>くすり</rt></ruby>です。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 25px;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    はい、これはどうやって <span class="answer-text"><ruby>飲<rt>の</rt></ruby>めばいいですか</span> か。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 25px;">
+                    <span class="dialog-speaker" style="color:#005088;"><ruby>薬剤師<rt>やくざいし</rt></ruby> (先生)：</span>
+                    1日3回、<ruby>食後<rt>しょくご</rt></ruby>に <span class="answer-text"><ruby>飲<rt>の</rt></ruby>まなければなりません</span> 。
+                </div>
+                <div class="dialog-line" style="margin-bottom: 0;">
+                    <span class="dialog-speaker" style="color:#005088;">林：</span>
+                    わかりました。ありがとうございます。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 21: Task 1 (QUESTION) -->
+    <div class="slide-container" id="slide17">
+        <h2 class="slide-title"><ruby>総合<rt>そうごう</rt></ruby>タスク 1：<ruby>診察<rt>しんさつ</rt></ruby>ミッション <span class="cn-translation">(綜合任務 1：向醫生說明病情)</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #005088; border-bottom: 2px solid #11caa0; display: inline-block; margin-bottom: 10px;">シチュエーション <span class="cn-translation" style="font-size:18px;">(狀況)</span></h3>
+                    <p>你今天很不舒服，來到了內科診所。輪到你看診了，醫生問你「怎麼了嗎？」。</p>
+                    
+                    <h3 style="color: #11caa0; margin-top: 20px; margin-bottom: 10px;">ミッション <span class="cn-translation" style="font-size:18px;">(任務)</span></h3>
+                    <ol style="padding-left: 20px; font-weight: 700; font-size: 22px; margin-bottom: 0;">
+                        <li>具體說明你哪兩個地方不舒服。<br><span style="font-size:16px; font-weight:400; color:#64748b;">(使用：～て、〜んです。 例：頭痛、想吐)</span></li>
+                        <li>詢問醫生你是不是「感冒了」。<br><span style="font-size:16px; font-weight:400; color:#64748b;">(使用：風邪、～でしょうか)</span></li>
+                    </ol>
+                </div>
+                <div>
+                    <!-- SVG 插圖：醫院建築 -->
+                    <div class="image-wrapper">
+                        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Building -->
+                            <rect x="200" y="150" width="400" height="450" fill="#f8fafc" stroke="#334155" stroke-width="8"/>
+                            <rect x="180" y="120" width="440" height="30" fill="#005088" rx="5"/>
+                            <!-- Green Cross Sign -->
+                            <rect x="375" y="170" width="50" height="150" fill="#11caa0"/>
+                            <rect x="325" y="220" width="150" height="50" fill="#11caa0"/>
+                            <!-- Windows -->
+                            <rect x="250" y="320" width="80" height="80" fill="#cbd5e1" stroke="#334155" stroke-width="4"/>
+                            <rect x="470" y="320" width="80" height="80" fill="#cbd5e1" stroke="#334155" stroke-width="4"/>
+                            <!-- Door -->
+                            <rect x="350" y="450" width="100" height="150" fill="#94a3b8" stroke="#334155" stroke-width="6"/>
+                            <line x1="400" y1="450" x2="400" y2="600" stroke="#334155" stroke-width="4"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22: Task 1 (ANSWER) -->
+    <div class="slide-container" id="slide17-ans">
+        <h2 class="slide-title"><ruby>総合<rt>そうごう</rt></ruby>タスク 1：<ruby>診察<rt>しんさつ</rt></ruby>ミッション <span class="answer-badge">解答例</span></h2>
+        <div class="content-area">
+            <h3 style="color: #005088; text-align: center; margin-bottom: 20px;">このように言ってみましょう！ <span class="cn-translation" style="font-size:18px;">(試著這樣說說看！)</span></h3>
+            <div style="background-color: #fff0f0; border: 2px solid #e63946; border-radius: 12px; padding: 30px; width: 80%;">
+                <p style="font-size: 26px; line-height: 1.8; margin: 0;">
+                    「<ruby>頭<rt>あたま</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>くて、<ruby>吐<rt>は</rt></ruby>き<ruby>気<rt>け</rt></ruby>がする<span class="answer-text">んです</span>。<br><br>
+                    これって、<ruby>風邪<rt>かぜ</rt></ruby><span class="answer-text">でしょうか</span>。」
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23: Task 2 (QUESTION) -->
+    <div class="slide-container" id="slide18">
+        <h2 class="slide-title"><ruby>総合<rt>そうごう</rt></ruby>タスク 2：<ruby>薬局<rt>やっきょく</rt></ruby>ミッション <span class="cn-translation">(綜合任務 2：藥局領藥)</span></h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout" style="align-items: center;">
+                <div>
+                    <!-- SVG 插圖：藥袋說明 (無括號標音版) -->
+                    <div class="image-wrapper" style="border-color: #005088;">
+                        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="250" y="100" width="300" height="400" fill="#ffffff" stroke="#11caa0" stroke-width="10"/>
+                            <rect x="250" y="100" width="300" height="80" fill="#11caa0"/>
+                            <circle cx="400" cy="140" r="25" fill="#ffffff"/>
+                            <path d="M 400 125 L 400 155 M 385 140 L 415 140" stroke="#11caa0" stroke-width="6"/>
+                            
+                            <!-- Checkbox 1: Morning -->
+                            <rect x="300" y="250" width="30" height="30" fill="none" stroke="#334155" stroke-width="4"/>
+                            <text x="350" y="255" font-size="16" font-family="sans-serif" fill="#64748b" font-weight="bold">あさ</text>
+                            <text x="350" y="285" font-size="30" font-family="sans-serif" fill="#1e293b" font-weight="bold">朝</text>
+                            
+                            <!-- Checkbox 2: Noon -->
+                            <rect x="300" y="320" width="30" height="30" fill="none" stroke="#334155" stroke-width="4"/>
+                            <path d="M 305 335 L 315 345 L 340 315" fill="none" stroke="#ef4444" stroke-width="6"/> <!-- Checked -->
+                            <text x="350" y="335" font-size="16" font-family="sans-serif" fill="#64748b" font-weight="bold">ひる</text>
+                            <text x="350" y="360" font-size="30" font-family="sans-serif" fill="#1e293b" font-weight="bold">昼</text>
+                            
+                            <!-- Checkbox 3: Night -->
+                            <rect x="300" y="390" width="30" height="30" fill="none" stroke="#334155" stroke-width="4"/>
+                            <text x="350" y="405" font-size="16" font-family="sans-serif" fill="#64748b" font-weight="bold">よる</text>
+                            <text x="350" y="430" font-size="30" font-family="sans-serif" fill="#1e293b" font-weight="bold">夜</text>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: #11caa0; margin-bottom: 5px;">シチュエーション <span class="cn-translation" style="font-size:18px;">(狀況)</span></h3>
+                    <p>你在藥局拿到了藥。但你忘了剛剛藥師說的吃藥時間，你只記得好像是「吃完午餐後」。</p>
+                    
+                    <h3 style="color: #005088; margin-top: 20px; margin-bottom: 10px;">ミッション <span class="cn-translation" style="font-size:18px;">(任務)</span></h3>
+                    <ol style="padding-left: 20px; font-weight: 700; font-size: 20px; color: #11caa0; margin-bottom: 0;">
+                        <li>向藥師確認吃藥的時間。<br><span style="font-size:16px; font-weight:400; color:#64748b;">(使用：お昼ごはん、〜てから、〜てもいいですか)</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 24: Task 2 (ANSWER) -->
+    <div class="slide-container" id="slide18-ans">
+        <h2 class="slide-title"><ruby>総合<rt>そうごう</rt></ruby>タスク 2：<ruby>薬局<rt>やっきょく</rt></ruby>ミッション <span class="answer-badge">解答例</span></h2>
+        <div class="content-area">
+            <h3 style="color: #005088; text-align: center; margin-bottom: 20px;">このように言ってみましょう！ <span class="cn-translation" style="font-size:18px;">(試著這樣說說看！)</span></h3>
+            <div style="background-color: #fff0f0; border: 2px solid #e63946; border-radius: 12px; padding: 30px; width: 80%;">
+                <p style="font-size: 24px; line-height: 1.8; margin: 0;">
+                    「すみません、この<ruby>薬<rt>くすり</rt></ruby>は、<br>
+                    お<ruby>昼<rt>ひる</rt></ruby>ごはんを<span class="answer-text"><ruby>食<rt>た</rt></ruby>べてから</span>、<span class="answer-text"><ruby>飲<rt>の</rt></ruby>んでもいいですか</span>。」
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 25: Summary -->
+    <div class="slide-container" id="slide19">
+        <h2 class="slide-title">まとめ <span class="cn-translation">(今日總結)</span></h2>
+        <div class="content-area">
+            <p style="font-size: 26px; text-align: center; margin-bottom: 25px; font-weight: 700; color: #005088;">今日学んだ大切なポイント <span class="cn-translation" style="font-size:20px;">(今天學到的重要重點)</span></p>
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon" style="color:#f3f0df;"><i class="fa-solid fa-user-doctor"></i></div>
+                    <h3 style="color:#11caa0;">アドバイス</h3>
+                    <p>「〜<strong style="color:#11caa0;">たほうがいい</strong>」</p>
+                    <p class="cn-translation" style="font-size:14px !important;">(給予對方忠告與建議，醫生看診必用)</p>
+                </div>
+                <div class="tile">
+                    <div class="icon" style="color:#f3f0df;"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <h3 style="color:#11caa0;">ルール・義務</h3>
+                    <p>「〜<strong style="color:#11caa0;">なければなりません</strong>」</p>
+                    <p class="cn-translation" style="font-size:14px !important;">(說明必須遵守的規則或義務，如吃藥)</p>
+                </div>
+                <div class="tile">
+                    <div class="icon" style="color:#f3f0df;"><i class="fa-solid fa-head-side-cough"></i></div>
+                    <h3 style="color:#11caa0;">病院の単語</h3>
+                    <p>「<strong style="color:#11caa0;">症状</strong>」「<strong style="color:#11caa0;">処方箋</strong>」</p>
+                    <p class="cn-translation" style="font-size:14px !important;">(在日本生病時的求生關鍵單字)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 26: Homework -->
+    <div class="slide-container" id="slide20">
+        <div class="qa-layout">
+            <h2><i class="fa-solid fa-house-laptop"></i> 宿題＆アクション</h2>
+            <p class="cn-translation" style="margin-bottom: 20px; color:#64748b;">( 作業與行動：下次上課前的任務 )</p>
+            
+            <div style="background-color: #f0f4f8; padding: 25px 40px; border-radius: 12px; max-width: 900px; margin: 0 auto; text-align: left; border: 2px solid #005088;">
+                <p style="font-weight: 700; color: #11caa0; font-size: 28px; text-align: center; margin-bottom: 5px;">会社を休もう！</p>
+                <p style="text-align: center; margin-bottom: 20px; color: #005088;">(你今天很不舒服，請錄音向公司主管請病假！)</p>
+                
+                <ul style="font-size: 22px; line-height: 1.8; list-style-type: none; padding-left: 30px; margin-bottom: 0;">
+                    <li style="color: #334155;"><i class="fa-solid fa-check" style="color:#11caa0; margin-right: 15px;"></i> 用「〜んです」說明你的兩個症狀（發燒、咳嗽等）。</li>
+                    <li style="color: #334155;"><i class="fa-solid fa-check" style="color:#11caa0; margin-right: 15px;"></i> 告訴主管你今天必須去醫院（〜なければなりません）。</li>
+                    <li style="color: #334155;"><i class="fa-solid fa-microphone-lines" style="color:#11caa0; margin-right: 15px;"></i> 錄製這段「請假語音」傳給老師。</li>
+                    <li style="color: #334155; margin-bottom: 0;"><i class="fa-solid fa-people-arrows" style="color:#11caa0; margin-right: 15px;"></i> 下次上課老師會扮演醫生幫你看病喔！</li>
+                </ul>
+            </div>
+            
+            <div class="contact-info" style="font-size: 28px; font-weight: 700; margin-top: 25px;">
+                お疲れ様でした！ <span class="cn-translation" style="font-size:22px !important;">(辛苦了！)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 27: Vocabulary Summary -->
+    <div class="slide-container" id="slide21">
+        <h2 class="slide-title">単語まとめ <span class="cn-translation">(單字總複習)</span></h2>
+        <div class="content-area">
+            <div class="two-column" style="align-items: stretch; gap: 40px;">
+                <div style="background-color: #f0f4f8; border: 2px solid #005088; border-radius: 12px; padding: 40px; width: 100%;">
+                    <h3 style="color: #11caa0; text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px; margin-top: 0;"><i class="fa-solid fa-head-side-cough"></i> 症状（しょうじょう）</h3>
+                    <ul style="font-size: 28px; line-height: 2.2; margin-top: 20px; list-style: none; padding-left: 0;">
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>熱<rt>ねつ</rt></ruby>がある</li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>咳<rt>せき</rt></ruby>が<ruby>出<rt>で</rt></ruby>る</li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>喉<rt>のど</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>い</li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>吐<rt>は</rt></ruby>き<ruby>気<rt>け</rt></ruby>がする</li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i>アレルギー</li>
+                    </ul>
+                </div>
+                <div style="background-color: #f0f4f8; border: 2px solid #005088; border-radius: 12px; padding: 40px; width: 100%;">
+                    <h3 style="color: #11caa0; text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px; margin-top: 0;"><i class="fa-solid fa-hospital"></i> 病院・薬局</h3>
+                    <ul style="font-size: 28px; line-height: 2.2; margin-top: 20px; list-style: none; padding-left: 0;">
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>内科<rt>ないか</rt></ruby></li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>保険証<rt>ほけんしょう</rt></ruby></li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>診察券<rt>しんさつけん</rt></ruby></li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>処方箋<rt>しょほうせん</rt></ruby></li>
+                        <li style="color: #334155; padding-left: 40px; position: relative;"><i class="fa-solid fa-check" style="color: #11caa0; position: absolute; left: 0; top: 8px;"></i><ruby>食後<rt>しょくご</rt></ruby></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 28: Grammar Summary -->
+    <div class="slide-container" id="slide22">
+        <h2 class="slide-title">文法・フレーズまとめ <span class="cn-translation">(文法與句型總複習)</span></h2>
+        <div class="content-area" style="width: 100%; gap: 30px; justify-content: center;">
+            <div style="background-color: #f0f4f8; border-left: 10px solid #11caa0; padding: 30px 50px; width: 90%; border-radius: 0 12px 12px 0;">
+                <h3 style="color: #005088; margin-bottom: 15px; font-size: 34px;"><i class="fa-solid fa-comment-dots" style="color:#11caa0; margin-right:10px;"></i> 1. 〜たほうがいいです</h3>
+                <p style="font-size: 28px; margin: 0; color: #334155;">ゆっくり<ruby>休<rt>やす</rt></ruby>ん<span class="highlight-text">だほうがいいですよ</span>。</p>
+            </div>
+            
+            <div style="background-color: #f0f4f8; border-left: 10px solid #11caa0; padding: 30px 50px; width: 90%; border-radius: 0 12px 12px 0;">
+                <h3 style="color: #005088; margin-bottom: 15px; font-size: 34px;"><i class="fa-solid fa-comment-dots" style="color:#11caa0; margin-right:10px;"></i> 2. 〜なければなりません</h3>
+                <p style="font-size: 28px; margin: 0; color: #334155;">1<ruby>日<rt>にち</rt></ruby>3<ruby>回<rt>かい</rt></ruby><ruby>飲<rt>の</rt></ruby>ま<span class="highlight-text">なければなりません</span>。</p>
+            </div>
+
+            <div style="background-color: #f0f4f8; border-left: 10px solid #11caa0; padding: 30px 50px; width: 90%; border-radius: 0 12px 12px 0;">
+                <h3 style="color: #005088; margin-bottom: 15px; font-size: 34px;"><i class="fa-solid fa-comment-dots" style="color:#11caa0; margin-right:10px;"></i> 3. 症状を説明する</h3>
+                <p style="font-size: 28px; margin: 0; color: #334155;"><ruby>熱<rt>ねつ</rt></ruby>があって、<ruby>咳<rt>せき</rt></ruby>も<ruby>出<rt>で</rt></ruby>る<span class="highlight-text">んです</span>。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 簡報控制面板移入 presentation-container 內部 -->
+    <div class="controls">
+        <button id="prevBtn"><i class="fa-solid fa-chevron-left"></i> 上一頁</button>
+        <div class="slide-counter"><span id="currentSlideNum">1</span> / <span id="totalSlides">28</span></div>
+        <button id="nextBtn">下一頁 <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+</div>
+
+<script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide-container');
+    const totalSlides = slides.length;
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    document.getElementById('totalSlides').textContent = totalSlides;
+
+    function updateSlides() {
+        slides.forEach(slide => {
+            slide.classList.remove('active');
+        });
+        
+        slides[currentSlideIndex].classList.add('active');
+        
+        document.getElementById('currentSlideNum').textContent = currentSlideIndex + 1;
+        
+        prevBtn.disabled = currentSlideIndex === 0;
+        nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+    }
+
+    function nextSlide() {
+        if (currentSlideIndex < totalSlides - 1) {
+            currentSlideIndex++;
+            updateSlides();
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlideIndex > 0) {
+            currentSlideIndex--;
+            updateSlides();
+        }
+    }
+
+    // 使用 EventListener 綁定按鈕
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    // 支援鍵盤左右鍵翻頁
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+            nextSlide();
+        } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+            prevSlide();
+        }
+    });
+
+    // 自動縮放以適應各種螢幕與預覽視窗大小
+    function resizePresentation() {
+        const container = document.querySelector('.presentation-container');
+        const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.95;
+        container.style.transform = `scale(${scale})`;
+        container.style.transformOrigin = 'center center';
+    }
+    window.addEventListener('resize', resizePresentation);
+    resizePresentation();
+
+    updateSlides();
+</script>
+
+</body>
+</html>
